@@ -3,119 +3,232 @@ let hours = ['6am', '7am', '8am', '9am', '10am', '11am', '12pm', '1pm', '2pm', '
 let section = document.getElementById('section');
 let table = document.createElement('table');
 section.appendChild(table);
-function randomValue(min, max) {
-  return Math.floor(Math.random() * (max - min + 1) + min);
-}
-let allCookis = [];
-function Cookies(location, minCust, maxCust, avgPerSale) {
-  this.location = location;
-  this.minCust = minCust;
+
+
+
+function Cookies(name, minCust, maxCust, avgSale) {
+  this.name = name
   this.maxCust = maxCust;
-  this.avgPerSale = avgPerSale;
-  this.ranCust = [];
+  this.minCust = minCust;
+  this.avgSale = avgSale;
   this.totalPerLocation = 0;
-  this.cookPerHour = [];
-  allCookis.push(this);
+  this.cookiesPerHour = [];
+  this.cusPerHour = [];
+  
+  Cookies.allLocation.push(this);
 }
-
-let seattle = new Cookies('Seattle', 23, 65, 6.3);
-let tokyo = new Cookies('Tokyo', 3, 24, 1.2);
-let dubai = new Cookies('Dubai', 11, 38, 3.7);
-let paris = new Cookies('Paris', 20, 38, 2.3);
-let lima = new Cookies('Lima', 2, 16, 4.6);
+Cookies.allLocation = [];
 
 
-Cookies.prototype.getRanNumOfCust = function () {
+
+Cookies.prototype.gitCustNumber = function () {
   for (let i = 0; i < hours.length; i++) {
-    this.ranCust.push(randomValue(this.minCust, this.maxCust));
-  }
-};
-Cookies.prototype.getNumOfCookPreHour = function () {
-  let value = 0;
-  for (let i = 0; i < hours.length; i++) {
-    value = Math.ceil(this.ranCust[i] * this.avgPerSale);
-    this.totalPerLocation = this.totalPerLocation + value;
-    this.cookPerHour.push(value);
-  }
+    let cookiees = Math.ceil(getRandomValue(this.mincust, this.maxcust) * this.avgsale);
+    this.cookiesPerHour.push(cookiees);
+    this.totalPerLocation += cookiees;
+   
+  };
 };
 
 
-function headerRow() {
-  let firstRow = document.createElement('tr');
-  table.appendChild(firstRow);
-  let emptyCell = document.createElement('th');
-  firstRow.appendChild(emptyCell);
-  let thl = null;
-  for (let i = 0; i < hours.length; i++) {
-    thl = document.createElement('th');
-    firstRow.appendChild(thl);
-    thl.textContent = hours[i];
-  }
-  let dailyTotal = document.createElement('th');
-  firstRow.appendChild(dailyTotal);
-  dailyTotal.textContent = 'Daily Location Total';
-}
+
+
+
 
 
 Cookies.prototype.render = function () {
-  let dataRow = document.createElement('tr');
-  table.appendChild(dataRow);
+  this.gitCustNumber();
 
-  let locationName = document.createElement('th');
-  dataRow.appendChild(locationName);
-  locationName.textContent = this.location;
+  const traw = document.createElement('tr');
+  table.appendChild(traw);
+  
+  let tData = document.createElement('td');
+  traw.appendChild(tData);
+  tData.textContent = this.name;
 
-  let tdl = null;
-  for (let i = 0; i < this.cookPerHour[i]; i++) {
-    tdl = document.createElement('td');
-    dataRow.appendChild(tdl);
-    tdl.textContent = this.cookPerHour[i];
+  for(let i = 0; i < hours.length; i++) {
+    let tableData = document.createElement('td');
+    traw.appendChild(tableData);
+    tableData.textContent = this.cookiesPerHour[i];
   }
-  let dailyTotal = document.createElement('th');
-  dataRow.appendChild(dailyTotal);
-  dailyTotal.textContent = this.totalPerLocation;
-};
 
+  let tabled1 = document.createElement('td');
+  traw.appendChild(tabled1);
+  tabled1.textContent = this.totalPerLocation;
+} 
 
-function footerRow() {
+ function tableHead() {
+   let th = document.createElement('tr');
+  table.appendChild(th);
 
-  let lastRow = document.createElement('tr');
-  table.appendChild(lastRow);
+   let thData = document.createElement('th');
+   th.appendChild(thData);
+   thData.textContent = '';
 
-  let firstCell = document.createElement('th');
-  lastRow.appendChild(firstCell);
-  firstCell.textContent = 'Total';
-
-  let sum = 0; let tdl = null;
-  let theTotal = 0;
-
-  for (let j = 0; j < hours.length; j++) {
-    for (let i = 0; i < allCookis.length; i++) {
-      sum = sum + allCookis[i].cookPerHour[j];
-    }
-    tdl = document.createElement('td');
-    lastRow.appendChild(tdl);
-    tdl.textContent = sum;
-    theTotal = theTotal + sum;
-    sum = 0;
+  
+   for(let i = 0; i < hours.length; i++) {
+     let thData = document.createElement('th');
+    th.appendChild(thData);
+     thData.textContent =hours[i];
   }
-  let lastCell = document.createElement('th');
-  lastRow.appendChild(lastCell);
-  lastCell.textContent = theTotal;
 
+ let thData1 = document.createElement('th');
+ th.appendChild(thData1);
+ thData1.textContent = 'Total Daily Location';
+}
+
+function tableFootr() {
+  let tfoot = document.createElement('tr');
+ table.appendChild(tfoot);
+ let thData = document.createElement ('th');
+ tfoot.appendChild(thData);
+ thData.textContent='Total';
+
+
+
+let theTotal = 0;
+for (let i = 0; i < hours.length; i++) {
+
+  let  thData = document.createElement('th');
+  let totalPerHour = 0;
+  for(let j = 0; j < Cookies.allLocation.length; j++) {
+    totalPerHour += Cookies.allLocation[j].cookiesPerHour[i];
+    theTotal += Cookies.allLocation[j].cookiesPerHour[i];
+  }
+  thData.textContent = totalPerHour;
+  tfoot.appendChild(thData);
 }
 
 
-headerRow();
-for (let i = 0; i < allCookis.length; i++) {
-  allCookis[i].getRanNumOfCust();
-  allCookis[i].getNumOfCookPreHour();
-  allCookis[i].render();
-
+let th1Data1 = document.createElement('th');
+tfoot.appendChild(th1Data1);
+th1Data1.textContent = theTotal;
 }
-footerRow();
 
-console.log(allCookis);
+new Cookies('Seattle', '23', '65', '6.3');
+new Cookies('Tokyo', '3', '24', '1.2');
+new Cookies('Dubai', '11	', '38', '3.7');
+new Cookies('Paris', '20', '38', '2.3');
+new Cookies('Lima', '2', '16', '4.6');
+
+
+
+
+function render() {
+  for(let i = 0; i < Cookies.allLocation.length; i++){
+    Cookies.allLocation[i].render();
+  }
+}
+
+tableHead();
+render();
+
+
+function getRandomValue(min, max) {
+  min = Math.ceil(min);
+  max = Math.floor(max);
+  return Math.floor(Math.random() * (max - min) + min);
+}
+
+tableFootr();
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// Salmon.prototype.render = function () {
+//   this.gitCustNumber();
+
+//   const tr = document.createElement('tr');
+//   datatable.appendChild(tr);
+  
+//   let td = document.createElement('td');
+//   tr.appendChild(td);
+//   td.textContent = this.name;
+
+//   for(let i = 0; i < hour.length; i++) {
+//     let tContent = document.createElement('td');
+//     tr.appendChild(tContent);
+//     tContent.textContent = this.cookiesPerHour[i];
+//   }
+
+//   let td1 = document.createElement('td');
+//   tr.appendChild(td1);
+//   td1.textContent = this.total;
+// }
+
+
+
+
+
+// Cookies.prototype.render = function () {
+//   let dataRow = document.createElement('tr');
+//   table.appendChild(dataRow);
+
+//   let locationName = document.createElement('th');
+//   dataRow.appendChild(locationName);
+//   locationName.textContent = this.location;
+
+//   let tdl = null;
+//   for (let i = 0; i < this.cookPerHour[i]; i++) {
+//     tdl = document.createElement('td');
+//     dataRow.appendChild(tdl);
+//     tdl.textContent = this.cookPerHour[i];
+//   }
+//   let dailyTotal = document.createElement('th');
+//   dataRow.appendChild(dailyTotal);
+//   dailyTotal.textContent = this.totalPerLocation;
+// };
+
+
+// function footerRow() {
+
+//   let lastRow = document.createElement('tr');
+//   table.appendChild(lastRow);
+
+//   let firstCell = document.createElement('th');
+//   lastRow.appendChild(firstCell);
+//   firstCell.textContent = 'Total';
+
+//   let sum = 0; let tdl = null;
+//   let theTotal = 0;
+
+//   for (let j = 0; j < hours.length; j++) {
+//     for (let i = 0; i < allCookis.length; i++) {
+//       sum = sum + allCookis[i].cookPerHour[j];
+//     }
+//     tdl = document.createElement('td');
+//     lastRow.appendChild(tdl);
+//     tdl.textContent = sum;
+//     theTotal = theTotal + sum;
+//     sum = 0;
+//   }
+//   let lastCell = document.createElement('th');
+//   lastRow.appendChild(lastCell);
+//   lastCell.textContent = theTotal;
+
+// }
+
+
+// headerRow();
+// for (let i = 0; i < allCookis.length; i++) {
+//   allCookis[i].getRanNumOfCust();
+//   allCookis[i].getNumOfCookPreHour();
+//   allCookis[i].render();
+
+// }
+// footerRow();
+
+// console.log(allCookis);
 
 
 
