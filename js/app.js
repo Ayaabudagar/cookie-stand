@@ -23,11 +23,13 @@ Cookies.allLocation = [];
 
 Cookies.prototype.gitCustNumber = function () {
   for (let i = 0; i < hours.length; i++) {
-    let cookiees = Math.ceil(getRandomValue(this.mincust, this.maxcust) * this.avgsale);
+    let cookiees = Math.ceil(getRandomValue(this.minCust, this.maxCust) * this.avgSale);
     this.cookiesPerHour.push(cookiees);
+    console.log (cookiees);
     this.totalPerLocation += cookiees;
    
   };
+  console.log(this.cookiesPerHour);
 };
 
 
@@ -105,11 +107,11 @@ tfoot.appendChild(th1Data1);
 th1Data1.textContent = theTotal;
 }
 
-new Cookies('Seattle', '23', '65', '6.3');
-new Cookies('Tokyo', '3', '24', '1.2');
-new Cookies('Dubai', '11	', '38', '3.7');
-new Cookies('Paris', '20', '38', '2.3');
-new Cookies('Lima', '2', '16', '4.6');
+new Cookies('Seattle', 23, 65, 6.3);
+new Cookies('Tokyo', 3, 24, 1.2);
+new Cookies('Dubai', 11 , 38 , 3.7);
+new Cookies('Paris', 20, 38, 2.3);
+new Cookies('Lima', 2, 16, 4.6);
 
 
 
@@ -127,6 +129,7 @@ render();
 function getRandomValue(min, max) {
   min = Math.ceil(min);
   max = Math.floor(max);
+  console.log( Math.floor(Math.random() * (max - min) + min));
   return Math.floor(Math.random() * (max - min) + min);
 }
 
