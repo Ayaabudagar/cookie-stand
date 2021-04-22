@@ -3,10 +3,28 @@
 * {
   font-family: Arial, sans-serif;
 }
+body {
+  background-image: url('https://th.bing.com/th/id/R7a58de25036c2f60ef1d7420aedd25fd?rik=WGOfxqiA5BnXIg&pid=ImgRaw');
+  background-position:center;
+ background-repeat: no-repeat;
+ background-size :cover ;
+ position: relative;
+}
+body header a {
+  
+  background-color:rgb(192, 194, 194);
+  text-decoration-line: none;
+  color: rgb(43, 43, 43);
+}
 
 table {
     border-collapse: collapse;
     text-align: center;
+    text-align: center;
+    margin-left:25%;
+    margin-right: 25%;
+    color: rgb(58, 65, 78);
+    background-color: beige;
   }
   
   td, th {
@@ -18,3 +36,20 @@ table {
     background-color: #325288;
     color: #fff;
   }
+  body header h1 {
+ 
+    font-weight: bold;
+    color: rgb(110, 77, 28);
+}
+.loc {
+  text-align: center;
+  font-weight:bolder;
+  font-size: 25px;
+  outline-style: none;
+  color: rgb(226, 143, 19);
+}
+#pic {
+  display: inline-block;
+width: 200px;
+height:120px;
+}
